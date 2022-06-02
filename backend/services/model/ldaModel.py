@@ -41,3 +41,15 @@ def create_lda_model(dataset_csv,num_of_topics):
     lda_model.fit_transform(data_vectorized)
     #Return the LDA model, vectorizer and the doc-word matrix
     return lda_model,data_vectorized,vectorizer
+
+def visualize_lda_model(lda_model,data_vectorized,vectorizer):
+    visualization = pyLDAvis.sklearn.prepare(lda_model, data_vectorized, vectorizer, mds='tsne')
+    try:
+        pyLDAvis.save_html(visualization,'model.html')
+    except:
+        print("Failed to create visualization")
+
+
+# Example Function Call to create a 10 topic model and save a visualization
+#lda_model,data_vectorized,vectorizer=create_lda_model('books.csv',10)
+#visualize_lda_model(lda_model,data_vectorized,vectorizer)
