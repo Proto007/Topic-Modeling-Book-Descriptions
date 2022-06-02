@@ -42,7 +42,7 @@ def read_data(fname):
     return descriptions
 
 """
-    This function takes a word and returns the pos tag in a format that is recognized by wordnet lemmatizer
+    Returns the pos tag of given word in a format that is recognized by wordnet lemmatizer
     @params (string): query word
     @return (string): pos tag that is recognizable by wordnet lemmatizer/ empty if the given word is empty or not one of the lemmatized pos
 """
@@ -64,3 +64,22 @@ def get_pos_tag(word):
         return wordnet.ADV
     #Return empty if the given word is not one of the above tags
     return ""
+
+"""
+    Return lemmatized form of given word if it is a noun, verb, adjective or adverb.
+    @params (string): query word
+    @return (string): lemmatized word if it is one of the valid pos tags/ returns the word itself if it is empty or not a valid pos tag
+"""
+def lemmatize(word):
+    #Return the word itself if its empty
+    if not word:
+        return word
+    #Initialize the lemmatizer
+    lemmatizer=WordNetLemmatizer()
+    #Get the pos tag for the word
+    pos_tag=get_pos_tag(word)
+    #If the pos tag is not valid, return the word itself
+    if not pos_tag:
+        return word
+    #Return the lemmatized form of the word
+    return lemmatizer.lemmatize(word,pos_tag)
