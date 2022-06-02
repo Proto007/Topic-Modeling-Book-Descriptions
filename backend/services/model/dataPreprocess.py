@@ -9,10 +9,13 @@ from langdetect import detect
 
 #Imports for processing the data
 import nltk
-#Download Wordnet through NLTK in python console:
-nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer 
 from nltk.corpus import wordnet
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+#Download Wordnet through NLTK in python console
+nltk.download('wordnet')
+
 
 """
     Read given .csv dataset into a list of strings where each string serves as a book description
@@ -83,3 +86,30 @@ def lemmatize(word):
         return word
     #Return the lemmatized form of the word
     return lemmatizer.lemmatize(word,pos_tag)
+
+"""
+    Updates passed list of strings into a list of lists where each sublist is a list of words after preprocessing
+    Preprocessing includes tokenizing(using nltk), removing stopwords, lemmatizing, casefolding
+    @param (list of strings): list of descriptions from the dataset
+    @result: param list is updated into a list of lists where each sublist is a list of strings
+"""
+def preprocess(descriptions):
+    #Get the stopwords_list from nltk
+    stopwords_list=stopwords.words('english')
+
+    #Tokenize, lemmatize, remove stopwords, remove numeric words, remove endline
+    for i in range(len(descriptions)):
+        #Tokenize the words from each description using nltk's tokenizer
+        descriptions[i]=word_tokenize(descriptions[i])
+        #List used to keep track of words after processing
+        processed_description=[]
+        for word in descriptions[i]:
+            #Filter out the stopwords
+            if word not in stopwords_list:
+                #Filter out words that are not greater than length of 2 chars and numeric words
+                if((len(word)>2) & (not word.isnumeric())):
+                    #Lemmatize the words, remove endline chars and casefold words to lowercase
+                    word=lemmatize(word.lower().strip())
+                    processed_description.append(word)
+        #Update the curr index of descriptions with cleaned list of words
+        descriptions[i]=processed_description
