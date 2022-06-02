@@ -23,7 +23,7 @@ nltk.download('wordnet')
     @params:
         fname (string): name of the .csv file being read
     @return:
-        A list of strings
+        descriptions (string): A list of strings
 """
 def read_data(fname):
     if not fname:
@@ -46,8 +46,10 @@ def read_data(fname):
 
 """
     Returns the pos tag of given word in a format that is recognized by wordnet lemmatizer
-    @params (string): query word
-    @return (string): pos tag that is recognizable by wordnet lemmatizer/ empty if the given word is empty or not one of the lemmatized pos
+    @params:
+        word (string): query word
+    @return 
+        pos_tag (string): pos tag that is recognizable by wordnet lemmatizer/ empty if the given word is empty or not one of the lemmatized pos
 """
 def get_pos_tag(word):
     #Return empty string if query word is invalid
@@ -70,8 +72,10 @@ def get_pos_tag(word):
 
 """
     Return lemmatized form of given word if it is a noun, verb, adjective or adverb.
-    @params (string): query word
-    @return (string): lemmatized word if it is one of the valid pos tags/ returns the word itself if it is empty or not a valid pos tag
+    @params: 
+        word (string): query word
+    @return 
+        lemmatized_word (string): lemmatized word if it is one of the valid pos tags/ returns the word itself if it is empty or not a valid pos tag
 """
 def lemmatize(word):
     #Return the word itself if its empty
@@ -90,8 +94,10 @@ def lemmatize(word):
 """
     Updates passed list of strings into a list of preprocessed strings
     Preprocessing includes tokenizing(using nltk), removing stopwords, lemmatizing, casefolding
-    @param (list of strings): list of descriptions from the dataset
+    @param 
+        description (list of strings): list of descriptions from the dataset
     @result: param list is updated into a list of preprocessed strings
+    @return: none
 """
 def preprocess(descriptions):
     #Get the stopwords_list from nltk
