@@ -41,11 +41,22 @@ def create_lda_model(dataset_csv,num_of_topics):
     lda_model.fit_transform(data_vectorized)
     #Return the LDA model, vectorizer and the doc-word matrix
     return lda_model,data_vectorized,vectorizer
-
+"""
+    Create "model.html" to show the topics created by the given LDA model
+    @params:
+        lda_model (LatentDirichletAllocation): lda model
+        data_vectorized: doc-word matrix
+        vectorizer: CountVectorizer class instance used to create doc-word matrix
+    @output:
+        model.html (file): model visualization
+"""
 def visualize_lda_model(lda_model,data_vectorized,vectorizer):
+    #Prepare the visualization
     visualization = pyLDAvis.sklearn.prepare(lda_model, data_vectorized, vectorizer, mds='tsne')
+    #Save the visualization as 'model.html'
     try:
         pyLDAvis.save_html(visualization,'model.html')
+    #Log error in visualization creation
     except:
         print("Failed to create visualization")
 
