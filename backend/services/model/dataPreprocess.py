@@ -23,7 +23,7 @@ nltk.download('wordnet')
     @params:
         fname (string): name of the .csv file being read
     @return:
-        A list of strings
+        descriptions (string): A list of strings
 """
 def read_data(fname):
     if not fname:
@@ -46,8 +46,10 @@ def read_data(fname):
 
 """
     Returns the pos tag of given word in a format that is recognized by wordnet lemmatizer
-    @params (string): query word
-    @return (string): pos tag that is recognizable by wordnet lemmatizer/ empty if the given word is empty or not one of the lemmatized pos
+    @params:
+        word (string): query word
+    @return 
+        pos_tag (string): pos tag that is recognizable by wordnet lemmatizer/ empty if the given word is empty or not one of the lemmatized pos
 """
 def get_pos_tag(word):
     #Return empty string if query word is invalid
@@ -70,8 +72,10 @@ def get_pos_tag(word):
 
 """
     Return lemmatized form of given word if it is a noun, verb, adjective or adverb.
-    @params (string): query word
-    @return (string): lemmatized word if it is one of the valid pos tags/ returns the word itself if it is empty or not a valid pos tag
+    @params: 
+        word (string): query word
+    @return 
+        lemmatized_word (string): lemmatized word if it is one of the valid pos tags/ returns the word itself if it is empty or not a valid pos tag
 """
 def lemmatize(word):
     #Return the word itself if its empty
@@ -88,28 +92,32 @@ def lemmatize(word):
     return lemmatizer.lemmatize(word,pos_tag)
 
 """
-    Updates passed list of strings into a list of lists where each sublist is a list of words after preprocessing
+    Updates passed list of strings into a list of preprocessed strings
     Preprocessing includes tokenizing(using nltk), removing stopwords, lemmatizing, casefolding
-    @param (list of strings): list of descriptions from the dataset
-    @result: param list is updated into a list of lists where each sublist is a list of strings
+    @param 
+        description (list of strings): list of descriptions from the dataset
+    @result: param list is updated into a list of preprocessed strings
+    @return: none
 """
 def preprocess(descriptions):
     #Get the stopwords_list from nltk
     stopwords_list=stopwords.words('english')
-
+    stopwords_list.extend("000")
     #Tokenize, lemmatize, remove stopwords, remove numeric words, remove endline
     for i in range(len(descriptions)):
         #Tokenize the words from each description using nltk's tokenizer
         descriptions[i]=word_tokenize(descriptions[i])
-        #List used to keep track of words after processing
-        processed_description=[]
+        #Each processed word in current description is appended to this string
+        processed_description=""
         for word in descriptions[i]:
+            #Remove endline chars and casefold words to lowercase
+            word=word.lower().strip()
             #Filter out the stopwords
             if word not in stopwords_list:
                 #Filter out words that are not greater than length of 2 chars and numeric words
                 if((len(word)>2) & (not word.isnumeric())):
-                    #Lemmatize the words, remove endline chars and casefold words to lowercase
-                    word=lemmatize(word.lower().strip())
-                    processed_description.append(word)
+                    #Lemmatize the words
+                    word=lemmatize(word)
+                    processed_description+=str(word)+" "
         #Update the curr index of descriptions with cleaned list of words
-        descriptions[i]=processed_description
+        descriptions[i]=processed_description.strip()
