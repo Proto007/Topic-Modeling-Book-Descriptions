@@ -17,7 +17,7 @@ data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
     These parameters will be applied during grid search to find the model with best preplexity, log likelihood score and parameters.
     Can be changed to test specific parameters
 """
-search_params = {'n_components': [10,11,12,13,14,15], 
+search_params = {'n_components': [10,11,12,13,14,15,16,17,18,19,20], 
                 'learning_decay': [.5,.6,.7,.8,.9],
                 'random_state':[100], 
                 'n_jobs' :[-1], 
@@ -26,7 +26,7 @@ search_params = {'n_components': [10,11,12,13,14,15],
 """
     Used to create the evaluation graph
 """
-n_components= [10,11,12,13,14,15]
+n_components= [10,11,12,13,14,15,16,17,18,19,20]
 
 """
     Uses passed dataset and search params to return the result of grid search
@@ -108,7 +108,7 @@ evaluation_graph(grid_search)
 
 """
     The output for the above code:
-        Best Model's Params:  {'learning_decay': 0.6, 'learning_method': 'online', 'n_components': 10, 'n_jobs': -1, 'random_state': 100}
-        Best Log Likelihood Score:  -305291.73704079085
-        Model Perplexity:  2222.1323464111842
+        Best Model's Params:  {'learning_decay': 0.5, 'learning_method': 'online', 'n_components': 10, 'n_jobs': -1, 'random_state': 100}
+        Best Log Likelihood Score:  -305420.18894673965
+        Model Perplexity:  2306.3587161413056
 """

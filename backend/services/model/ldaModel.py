@@ -59,7 +59,7 @@ def create_lda_model(data_vectorized,num_of_topics):
                                         batch_size=128,                       # Documents in each learning iteration
                                         evaluate_every = -1,                  # compute perplexity every n iters, default: Don't
                                         n_jobs = -1,                          # Use all available CPUs
-                                        learning_decay=.6                     # Best learning decay based on log likelihood scored
+                                        learning_decay=0.6                    # Best learning decay based on log likelihood scored
                                         )
     #Create an LDA model with the given dataset
     lda_model.fit_transform(data_vectorized)
@@ -156,10 +156,10 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 """
     Creating an LDA model with best parameters predicted by grid search
 """
-data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
-lda_model=create_lda_model(data_vectorized,10)
-visualize_lda_model(lda_model,data_vectorized,vectorizer)
-df_topic_keywords = show_topics(vectorizer, lda_model,15)
+# data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
+# lda_model=create_lda_model(data_vectorized,15)
+# visualize_lda_model(lda_model,data_vectorized,vectorizer)
+# df_topic_keywords = show_topics(vectorizer, lda_model,15)
 """
     Example code showing how to predict the probability of given text using the LDA model
 """
