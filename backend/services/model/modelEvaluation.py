@@ -53,3 +53,32 @@ def lda_grid_search(data_vectorized=data_vectorized,search_params=search_params)
 """
 def get_best_lda(grid_search_models):
     return grid_search_models.best_estimator_
+
+"""
+    Create a graph showing the result of grid search. THIS FUNCTION DEPENDS ON GLOBAL VARIABLES.
+    @params:
+        grid_search_models: result of doing grid search
+    @result: 'gridSearch.png' created showing the log_likelihood based on the number of topics
+    @return: none
+"""
+def evaluation_graph(grid_search_models):
+    # Get the log likelihood based on the learning decays
+    log_likelyhoods_5 = [round(grid_search_models.cv_results_['mean_test_score'][index]) for index, gscore in enumerate(grid_search_models.cv_results_['params']) if gscore['learning_decay']==0.5]
+    log_likelyhoods_6 = [round(grid_search_models.cv_results_['mean_test_score'][index]) for index, gscore in enumerate(grid_search_models.cv_results_['params']) if gscore['learning_decay']==0.6]
+    log_likelyhoods_7 = [round(grid_search_models.cv_results_['mean_test_score'][index]) for index, gscore in enumerate(grid_search_models.cv_results_['params']) if gscore['learning_decay']==0.7]
+    log_likelyhoods_8 = [round(grid_search_models.cv_results_['mean_test_score'][index]) for index, gscore in enumerate(grid_search_models.cv_results_['params']) if gscore['learning_decay']==0.8]
+    log_likelyhoods_9 = [round(grid_search_models.cv_results_['mean_test_score'][index]) for index, gscore in enumerate(grid_search_models.cv_results_['params']) if gscore['learning_decay']==0.9]
+    # Create graph showing log likelihood for the learning decays over the number of topics
+    plt.figure(figsize=(12, 8))
+    plt.plot(n_components, log_likelyhoods_5, label='0.5')
+    plt.plot(n_components, log_likelyhoods_6, label='0.6')
+    plt.plot(n_components, log_likelyhoods_7, label='0.7')
+    plt.plot(n_components, log_likelyhoods_8, label='0.8')
+    plt.plot(n_components, log_likelyhoods_9, label='0.9')
+    # Label the graph
+    plt.title("Choosing Optimal LDA Model")
+    plt.xlabel("Num Topics")
+    plt.ylabel("Log Likelyhood Scores")
+    plt.legend(title='Learning decay', loc='best')
+    # Save the graph
+    plt.savefig('gridSearch.png')
