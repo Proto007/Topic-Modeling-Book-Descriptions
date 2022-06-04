@@ -11,13 +11,13 @@ import matplotlib.pyplot as plt
 """
     Global Variables that are used throughout. The dataset and minimum doc-word frequency can be changed to try different dataset/configuration.
 """
-data_vectorized,vectorizer=get_data_vectorized('books.csv',10)
+data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
 
 """
     These parameters will be applied during grid search to find the model with best preplexity, log likelihood score and parameters.
     Can be changed to test specific parameters
 """
-search_params = {'n_components': [10,11,12,13,14], 
+search_params = {'n_components': [10,11,12,13,14,15], 
                 'learning_decay': [.5,.6,.7,.8,.9],
                 'random_state':[100], 
                 'n_jobs' :[-1], 
@@ -26,7 +26,7 @@ search_params = {'n_components': [10,11,12,13,14],
 """
     Used to create the evaluation graph
 """
-n_components= [10,11,12,13,14]
+n_components= [10,11,12,13,14,15]
 
 """
     Uses passed dataset and search params to return the result of grid search
@@ -109,6 +109,6 @@ evaluation_graph(grid_search)
 """
     The output for the above code:
         Best Model's Params:  {'learning_decay': 0.6, 'learning_method': 'online', 'n_components': 10, 'n_jobs': -1, 'random_state': 100}
-        Best Log Likelihood Score:  -307591.0757809593
-        Model Perplexity:  2263.8173033815315
+        Best Log Likelihood Score:  -305291.73704079085
+        Model Perplexity:  2222.1323464111842
 """

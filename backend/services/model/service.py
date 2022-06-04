@@ -5,8 +5,8 @@ import bentoml
 from bentoml.io import NumpyNdarray
 
 
-data_vectorized,vectorizer=ldaModel.get_data_vectorized('books.csv',10)
-lda_model=ldaModel.create_lda_model(data_vectorized,20)
+data_vectorized,vectorizer=ldaModel.get_data_vectorized('books.csv',10,0.8)
+lda_model=ldaModel.create_lda_model(data_vectorized,10)
 bentoml.sklearn.save_model("lda_model", lda_model)
 
 lda_model_runner = bentoml.sklearn.get("lda_model:latest").to_runner()

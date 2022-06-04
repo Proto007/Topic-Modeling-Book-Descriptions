@@ -20,17 +20,19 @@ import pandas as pd
     @params:
         dataset_csv (string): name of training dataset csv file, file must have column named "description"
         minimum_df (int): words that occur atleast minimum_df times is considered for the model
+        maximum_df (float): words that occur more than this frequency is ignored
     @return:
         data_vectorized: doc-word matrix
         vectorizer: CountVectorizer class instance used to create doc-word matrix
 """
-def get_data_vectorized(dataset_csv, minimum_df):
+def get_data_vectorized(dataset_csv, minimum_df, maximum_df):
     #Initialize CountVectorizer with configurations to only consider words that occur atleast given minimum_df times
     vectorizer = CountVectorizer(analyzer='word',
                              min_df=minimum_df,
+                             max_df=maximum_df,                # Ignore words more than this frequency
                              stop_words='english',             # remove stop words
                              lowercase=True,                   # convert all words to lowercase
-                             token_pattern='[a-zA-Z0-9]{3,}',  # words should be atleast 3 chars long
+                             token_pattern='[a-zA-Z]{3,}',     # words should be atleast 3 chars long
                              )
     #Read the provided dataset
     descriptions_data=dp.read_data(dataset_csv)
@@ -154,9 +156,10 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 """
     Creating an LDA model with best parameters predicted by grid search
 """
-# data_vectorized,vectorizer=get_data_vectorized('books.csv',10)
-# lda_model=create_lda_model(data_vectorized,10)
-# df_topic_keywords = show_topics(vectorizer, lda_model,15)
+data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
+lda_model=create_lda_model(data_vectorized,10)
+visualize_lda_model(lda_model,data_vectorized,vectorizer)
+df_topic_keywords = show_topics(vectorizer, lda_model,15)
 """
     Example code showing how to predict the probability of given text using the LDA model
 """
