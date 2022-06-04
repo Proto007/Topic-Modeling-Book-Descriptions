@@ -42,3 +42,14 @@ def lda_grid_search(data_vectorized=data_vectorized,search_params=search_params)
     models.fit(data_vectorized)
     
     return models
+
+"""
+    Get the best lda model found in passed grid search result
+    @params:
+        grid_search_models: result of doing grid search
+    @return:
+        best_lda_model(LatentDirichletAllocation): best lda model based on grid search
+
+"""
+def get_best_lda(grid_search_models):
+    return grid_search_models.best_estimator_
