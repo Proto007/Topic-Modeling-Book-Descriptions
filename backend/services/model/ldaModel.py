@@ -118,3 +118,31 @@ def show_topics(vectorizer, lda_model, num):
     # Save the dataframe
     df_topic_keywords.to_csv("topic_words.csv",index=False)
     return df_topic_keywords
+
+"""
+    Predits the topic for the given string using the passed lda_model and returns top keywords and topic probability
+    @params:
+        query_description (string): query description
+        lda_model (LatentDirichletAllocation): lda model
+        vectorizer: CountVectorizer class instance used to create doc-word matrix
+        df_topic_keywords (pandas dataframe): dataframe with top words for each topic
+    @return:
+        topic (list of strings): top words for the predicted topic
+        topic_probability_scores (list of floats): the prevalance of all topics on the query_description
+"""
+def predict(query_description, vectorizer,lda_model,df_topic_keywords):
+    # Return empty lists if the input is invalid
+    if not query_description:
+        print("invalid input")
+        return [],[]
+    # Clean the query_description and prepare it for CountVectorizer
+    dp.preprocess_single(query_description)
+    query_description=[query_description]
+    # Vectorize the query_description to prepare it for LDA model
+    query_description= vectorizer.transform(query_description)
+
+    # Check the topic of the query_description using the passed LDA model
+    topic_probability_scores = lda_model.transform(query_description)
+    # Get the top words for the topic with highest probability
+    topic = df_topic_keywords.iloc[np.argmax(topic_probability_scores), :].values.tolist()
+    return topic, topic_probability_scores
