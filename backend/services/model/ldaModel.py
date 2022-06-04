@@ -126,15 +126,14 @@ def show_topics(vectorizer, lda_model, num):
     return df_topic_keywords
 
 """
-    Predits the topic for the given string using the passed lda_model and returns top keywords and topic probability
+    Predits the topic for the given string using the passed lda_model and returns topic keywords and topic probabilities for each topic
     @params:
         query_description (string): query description
         lda_model (LatentDirichletAllocation): lda model
         vectorizer: CountVectorizer class instance used to create doc-word matrix
         df_topic_keywords (pandas dataframe): dataframe with top words for each topic
     @return:
-        topic (list of strings): top words for the predicted topic
-        topic_probability_scores (list of floats): the prevalance of all topics on the query_description
+        topic_distribution (2d list[list of strings, float]): Contains keywords for each topic and the frequency of the topic in query description
 """
 def predict(query_description, vectorizer,lda_model,df_topic_keywords):
     # Return empty lists if the input is invalid
@@ -149,9 +148,15 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 
     # Check the topic of the query_description using the passed LDA model
     topic_probability_scores = lda_model.transform(query_description)
-    # Get the top words for the topic with highest probability
-    topic = df_topic_keywords.iloc[np.argmax(topic_probability_scores), :].values.tolist()
-    return topic, topic_probability_scores
+    # Get the top words for the each topics
+    topics_list=df_topic_keywords.values.tolist()
+    # Append the topic keywords and probability of all topics into an array 
+    topic_distribution=[]
+    for i in range(len(topics_list)):
+        topic_distribution.append([topics_list[i],topic_probability_scores[0][i]])
+    # Sort the topics based on the frequency
+    topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
+    return topic_distribution
 
 """
     Creating an LDA model with best parameters predicted by grid search
@@ -163,6 +168,5 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 """
     Example code showing how to predict the probability of given text using the LDA model
 """
-# predicted_topic,probability_scores=predict("In The Problem of Pain, C.S. Lewis, one of the most renowned Christian authors and thinkers,examines a universally applicable question within the human condition: If God is good and all-powerful, why does he allow his creatures to suffer pain? With his signature wealth of compassion and insight, C.S. Lewis offers answers to these crucial questions and shares his hope and wisdom to help heal a world hungering for a true understanding of human nature",vectorizer,lda_model,df_topic_keywords)
-# print(predicted_topic)
+# probability_scores=predict("As a third-year Ph.D. candidate, Olive Smith doesn't believe in lasting romantic relationships--but her best friend does, and that's what got her into this situation. Convincing Anh that Olive is dating and well on her way to a happily ever after was always going to take more than hand-wavy Jedi mind tricks: Scientists require proof. So, like any self-respecting biologist, Olive panics and kisses the first man she sees. That man is none other than Adam Carlsen, a young hotshot professor--and well-known ass. Which is why Olive is positively floored when Stanford's reigning lab tyrant agrees to keep her charade a secret and be her fake boyfriend. But when a big science conference goes haywire, putting Olive's career on the Bunsen burner, Adam surprises her again with his unyielding support and even more unyielding... six-pack abs. Suddenly their little experiment feels dangerously close to combustion. And Olive discovers that the only thing more complicated than a hypothesis on love is putting her own heart under the microscope.",vectorizer,lda_model,df_topic_keywords)
 # print(probability_scores)
