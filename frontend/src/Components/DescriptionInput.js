@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+
+// Component that parses user input and sends POST request to backend
 const DescriptionInput = (props) => {
     const [description, setDescription] = useState('');
     const handleSubmit = (event) => {
@@ -9,6 +11,7 @@ const DescriptionInput = (props) => {
         */
        props.setRetrieved(true);
     }
+    // Render book description form
     return (
      <div>
          <form onSubmit={handleSubmit}>
