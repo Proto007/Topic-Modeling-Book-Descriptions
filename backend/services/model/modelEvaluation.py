@@ -1,3 +1,8 @@
+"""
+    Author: Sadab Hafiz
+    Description: This file contains functions evaluate LDA models and find best LDA model using different parameters.
+"""
+# Import necessary functions and modules
 from ldaModel import get_data_vectorized
 from sklearn.model_selection import GridSearchCV
 from sklearn.decomposition import LatentDirichletAllocation

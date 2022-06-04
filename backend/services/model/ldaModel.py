@@ -1,3 +1,7 @@
+"""
+    Author: Sadab Hafiz
+    Description: This file contains functions to create,visualize and use an LDA model.
+"""
 # Import functions for data reading and cleaning
 import dataPreprocess as dp
 
@@ -150,12 +154,12 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 """
     Creating an LDA model with best parameters predicted by grid search
 """
-data_vectorized,vectorizer=get_data_vectorized('books.csv',10)
-lda_model=create_lda_model(data_vectorized,10)
-df_topic_keywords = show_topics(vectorizer, lda_model,15)
+# data_vectorized,vectorizer=get_data_vectorized('books.csv',10)
+# lda_model=create_lda_model(data_vectorized,10)
+# df_topic_keywords = show_topics(vectorizer, lda_model,15)
 """
     Example code showing how to predict the probability of given text using the LDA model
 """
-predicted_topic,probability_scores=predict("In The Problem of Pain, C.S. Lewis, one of the most renowned Christian authors and thinkers,examines a universally applicable question within the human condition: If God is good and all-powerful, why does he allow his creatures to suffer pain? With his signature wealth of compassion and insight, C.S. Lewis offers answers to these crucial questions and shares his hope and wisdom to help heal a world hungering for a true understanding of human nature",vectorizer,lda_model,df_topic_keywords)
-print(predicted_topic)
-print(probability_scores)
+# predicted_topic,probability_scores=predict("In The Problem of Pain, C.S. Lewis, one of the most renowned Christian authors and thinkers,examines a universally applicable question within the human condition: If God is good and all-powerful, why does he allow his creatures to suffer pain? With his signature wealth of compassion and insight, C.S. Lewis offers answers to these crucial questions and shares his hope and wisdom to help heal a world hungering for a true understanding of human nature",vectorizer,lda_model,df_topic_keywords)
+# print(predicted_topic)
+# print(probability_scores)
