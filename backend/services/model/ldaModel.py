@@ -8,6 +8,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 # Imports to visualize the LDA model
 import pyLDAvis
 import pyLDAvis.sklearn
+import numpy as np
+import pandas as pd
 
 """
     Create doc-word matrix from given dataset using a CountVectorizer
@@ -20,7 +22,12 @@ import pyLDAvis.sklearn
 """
 def get_data_vectorized(dataset_csv, minimum_df):
     #Initialize CountVectorizer with configurations to only consider words that occur atleast given minimum_df times
-    vectorizer = CountVectorizer(analyzer='word',min_df=minimum_df)
+    vectorizer = CountVectorizer(analyzer='word',
+                             min_df=minimum_df,
+                             stop_words='english',             # remove stop words
+                             lowercase=True,                   # convert all words to lowercase
+                             token_pattern='[a-zA-Z0-9]{3,}',  # words should be atleast 3 chars long
+                             )
     #Read the provided dataset
     descriptions_data=dp.read_data(dataset_csv)
     #Tokenize, remove stopwords, case-fold, lemmatize the data
@@ -46,11 +53,13 @@ def create_lda_model(data_vectorized,num_of_topics):
                                         batch_size=128,                       # Documents in each learning iteration
                                         evaluate_every = -1,                  # compute perplexity every n iters, default: Don't
                                         n_jobs = -1,                          # Use all available CPUs
+                                        learning_decay=.6                     # Best learning decay based on log likelihood scored
                                         )
     #Create an LDA model with the given dataset
     lda_model.fit_transform(data_vectorized)
     #Return the LDA model, vectorizer and the doc-word matrix
     return lda_model
+
 """
     Create "model.html" to show the topics created by the given LDA model
     @params:
@@ -70,8 +79,42 @@ def visualize_lda_model(lda_model,data_vectorized,vectorizer):
     except:
         print("Failed to create visualization")
 
+"""
+    Returns the perplexity score of the provided LDA model
+    @params:
+        lda_model (LatentDirichletAllocation): lda model
+        data_vectorized: doc-word matrix
+    @returns:
+        perplexity(float): the perplexity of the provided lda model on provided dataset
+"""
+def get_perplexity(lda_model,data_vectorized):
+    lda_model.perplexity(data_vectorized)
 
-# Example Function Call to create a 10 topic model and save a visualization
-# data_vectorized,vectorizer=get_data_vectorized('books.csv',10)
-# lda_model=create_lda_model(data_vectorized,20)
-# visualize_lda_model(lda_model,data_vectorized,vectorizer)
+"""
+    Returns and saves a dataframe with top specified number words for each topic in the given LDA model and vectorizer
+    @param:
+        lda_model (LatentDirichletAllocation): lda model
+        vectorizer: CountVectorizer class instance used to create doc-word matrix
+        num(int): number of top words in dataframe for each topic
+    @return:
+        topic_keywords(pandas dataframe): dataframe is also saved as 'topic_words.csv' 
+"""
+def show_topics(vectorizer, lda_model, num):
+    #  Np array of the feature names in passed vectorizer
+    keywords = np.array(vectorizer.get_feature_names())
+    topic_keywords = []
+    # extract the top words of each topic from the given LDA model
+    for topic_weights in lda_model.components_:
+        # Sort and get top words based on parameter number
+        top_keyword_locs = (-topic_weights).argsort()[:num]
+        # Add topwords to list
+        topic_keywords.append(keywords.take(top_keyword_locs))
+    # Save the topic distribution as a pandas csv
+    df_topic_keywords = pd.DataFrame(topic_keywords)
+    # Word number
+    df_topic_keywords.columns = ['Word '+str(i) for i in range(df_topic_keywords.shape[1])]
+    # Topic number
+    df_topic_keywords.index = ['Topic '+str(i) for i in range(df_topic_keywords.shape[0])]
+    # Save the dataframe
+    df_topic_keywords.to_csv("topic_words.csv",index=False)
+    return df_topic_keywords
