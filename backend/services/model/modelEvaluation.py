@@ -82,3 +82,28 @@ def evaluation_graph(grid_search_models):
     plt.legend(title='Learning decay', loc='best')
     # Save the graph
     plt.savefig('gridSearch.png')
+
+"""
+    Code used to perform grid search and save the graph
+"""
+grid_search=lda_grid_search()
+best_lda=get_best_lda(grid_search)
+
+# Print the parameters resulting in best model
+print("Best Model's Params: ", grid_search.best_params_)
+
+# Print the log likelihood of the best model
+print("Best Log Likelihood Score: ", grid_search.best_score_)
+
+# Print the perplexity of the best model
+print("Model Perplexity: ", best_lda.perplexity(data_vectorized))
+
+# Create graph to show result of grid_search
+evaluation_graph(grid_search)
+
+"""
+    The output for the above code:
+        Best Model's Params:  {'learning_decay': 0.6, 'learning_method': 'online', 'n_components': 10, 'n_jobs': -1, 'random_state': 100}
+        Best Log Likelihood Score:  -307591.0757809593
+        Model Perplexity:  2263.8173033815315
+"""
