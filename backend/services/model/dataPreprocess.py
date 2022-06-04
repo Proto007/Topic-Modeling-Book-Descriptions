@@ -102,7 +102,6 @@ def lemmatize(word):
 def preprocess(descriptions):
     #Get the stopwords_list from nltk
     stopwords_list=stopwords.words('english')
-    stopwords_list.extend("000")
     #Tokenize, lemmatize, remove stopwords, remove numeric words, remove endline
     for i in range(len(descriptions)):
         #Tokenize the words from each description using nltk's tokenizer
@@ -112,12 +111,44 @@ def preprocess(descriptions):
         for word in descriptions[i]:
             #Remove endline chars and casefold words to lowercase
             word=word.lower().strip()
+            #Lemmatize the words
+            word=lemmatize(word)
             #Filter out the stopwords
             if word not in stopwords_list:
                 #Filter out words that are not greater than length of 2 chars and numeric words
-                if((len(word)>2) & (not word.isnumeric())):
-                    #Lemmatize the words
-                    word=lemmatize(word)
+                if((len(word)>2) ):
+                    #Add word to the processed description
                     processed_description+=str(word)+" "
         #Update the curr index of descriptions with cleaned list of words
         descriptions[i]=processed_description.strip()
+
+"""
+    Preprocess passed description by tokenizing, lemmatizing, stopwords removal, casefolding
+    @param:
+        description (string): description that will be preprocessed
+    @result: passed description is updated into a list of preprocessed strings which are words after preprocessing
+    @return: none
+"""
+def preprocess_single(description):
+    #If the provided description is empty, return empty array
+    if not description:
+        return []
+    #Get the stopwords_list from nltk
+    stopwords_list=stopwords.words('english')
+    #Tokenize the words from each description using nltk's tokenizer
+    description=word_tokenize(description)
+    #Each processed word in current description is appended to this string
+    processed_description=""
+    for word in description:
+        #Remove endline chars and casefold words to lowercase
+        word=word.lower().strip()
+        #Lemmatize the word
+        word=lemmatize(word)
+        #Filter out the stopwords
+        if word not in stopwords_list:
+            #Filter out words that are not greater than length of 2 chars
+            if((len(word)>2) ):
+                #Add word to the processed description
+                processed_description+=str(word)+" "
+    #Update the description with cleaned list of words
+    description=processed_description.strip()
