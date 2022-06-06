@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Introduction from "./Introduction";
 
 // Component that parses user input and sends POST request to backend
 const DescriptionInput = (props) => {
@@ -18,11 +19,16 @@ const DescriptionInput = (props) => {
     }
     // Render book description form
     return (
-     <div>
+     <div style={ {
+      // Try setting `flexDirection` to `"row"`.
+      display:"flex",
+      flexDirection: "row",
+      justifyContent:"flex-start"
+    }}>
+         <Introduction/>
          <form onSubmit={handleSubmit}>
-            <h1>Book Description</h1>
-            <textarea value={description} onChange={(event) => setDescription(event.target.value)} /> <br/>
-            <input type='submit' value='Submit'/> 
+            <textarea  placeholder="Enter a book description..." rows="28" cols="60" value={description} onChange={(event) => setDescription(event.target.value)} style={{fontSize:"20pt",marginLeft:"2px"}}/> <br/>
+            <input type='submit' value='Get Topics' style={{width:'95vh',height:'6.8vh', background:"#000000",color:"white", marginLeft:"2px",fontSize:"20pt", fontFamily:"cursive",padding:"10px 25px",cursor:"pointer"}}/> 
          </form>
      </div>   
     );
