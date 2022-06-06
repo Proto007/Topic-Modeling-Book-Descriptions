@@ -7,4 +7,4 @@ bento_server:
     access_control_allow_credentials: True
     access_control_allow_headers: Null
     access_control_max_age: Null
-    access_control_expose_headers: ["Content-Length"]
+    access_control_expose_headers: ["Content-Length", "Content-Type"]
