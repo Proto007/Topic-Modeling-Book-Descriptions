@@ -1,2 +1,4 @@
 **/__pycache__
 backend/services/model/model.html
+frontend/node_modules
+node_modules/
