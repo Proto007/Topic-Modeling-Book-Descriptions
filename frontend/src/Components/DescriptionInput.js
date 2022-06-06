@@ -27,7 +27,7 @@ const DescriptionInput = (props) => {
     }}>
          <Introduction/>
          <form onSubmit={handleSubmit}>
-            <textarea  placeholder="Enter a book description..." rows="28" cols="60" value={description} onChange={(event) => setDescription(event.target.value)} style={{fontSize:"20pt",marginLeft:"2px"}}/> <br/>
+            <textarea placeholder="Enter a book description..." rows="28" cols="60" value={description} onChange={(event) => setDescription(event.target.value)} style={{fontSize:"20pt",marginLeft:"2px"}}/> <br/>
             <input type='submit' value='Get Topics' style={{width:'95vh',height:'6.8vh', background:"#000000",color:"white", marginLeft:"2px",fontSize:"20pt", fontFamily:"cursive",padding:"10px 25px",cursor:"pointer"}}/> 
          </form>
      </div>   
