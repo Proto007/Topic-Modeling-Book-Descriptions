@@ -155,7 +155,7 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
     for i in range(len(topics_list)):
         topic_distribution.append([topics_list[i],topic_probability_scores[0][i]])
     # Sort the topics based on the frequency
-    topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
+    #topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
     return topic_distribution
 
 """
