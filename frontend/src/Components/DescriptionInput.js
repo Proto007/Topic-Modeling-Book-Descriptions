@@ -1,15 +1,17 @@
 import { useState } from "react";
-
+import axios from 'axios';
 
 // Component that parses user input and sends POST request to backend
 const DescriptionInput = (props) => {
     const [description, setDescription] = useState('');
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        /*
-            API Call
-        */
+        const response = await axios.post(`${window.location.host}:5000/classify`, {
+            desc: description
+        });
        props.setRetrieved(true);
+       props.setTopics([].concat(response.data.topics));
+       props.setProbabilities([].concat(response.data.probabilities));
     }
     // Render book description form
     return (
