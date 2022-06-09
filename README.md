@@ -14,7 +14,7 @@ python3 -m venv newvenv
 3. Activate it with `./Topic-Modeling-Book-Descriptions/bin/activate`
 4. cd to backend/scripts/model directory
 5. Install python dependencies: `pip3 install -r requirements.txt`
-6. Start bentoML dev frontend to test post requests: `bento serve service:svc --reload`
+6. Start bentoML dev frontend to test post requests: `bentoml serve service:svc --reload`
 7. Open localhost to see bentoML developer frontend.
 
 #Frontend (reach + not finished yet)
