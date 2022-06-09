@@ -15,6 +15,9 @@ import pyLDAvis.sklearn
 import numpy as np
 import pandas as pd
 
+# Import bentoML for saving lda_model
+import bentoml
+
 """
     Create doc-word matrix from given dataset using a CountVectorizer
     @params:
@@ -107,7 +110,7 @@ def get_perplexity(lda_model,data_vectorized):
 """
 def show_topics(vectorizer, lda_model, num):
     #  Np array of the feature names in passed vectorizer
-    keywords = np.array(vectorizer.get_feature_names())
+    keywords = np.array(vectorizer.get_feature_names_out())
     topic_keywords = []
     # extract the top words of each topic from the given LDA model
     for topic_weights in lda_model.components_:
@@ -158,16 +161,4 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
     #topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
     return topic_distribution
 
-"""
-    Creating an LDA model with best parameters predicted by grid search
-"""
-# data_vectorized,vectorizer=get_data_vectorized('books.csv',10,0.8)
-# lda_model=create_lda_model(data_vectorized,15)
-# visualize_lda_model(lda_model,data_vectorized,vectorizer)
-# df_topic_keywords = show_topics(vectorizer, lda_model,15)
-"""
-    Example code showing how to predict the probability of given text using the LDA model
-"""
-# probability_scores=predict("As a third-year Ph.D. candidate, Olive Smith doesn't believe in lasting romantic relationships--but her best friend does, and that's what got her into this situation. Convincing Anh that Olive is dating and well on her way to a happily ever after was always going to take more than hand-wavy Jedi mind tricks: Scientists require proof. So, like any self-respecting biologist, Olive panics and kisses the first man she sees. That man is none other than Adam Carlsen, a young hotshot professor--and well-known ass. Which is why Olive is positively floored when Stanford's reigning lab tyrant agrees to keep her charade a secret and be her fake boyfriend. But when a big science conference goes haywire, putting Olive's career on the Bunsen burner, Adam surprises her again with his unyielding support and even more unyielding... six-pack abs. Suddenly their little experiment feels dangerously close to combustion. And Olive discovers that the only thing more complicated than a hypothesis on love is putting her own heart under the microscope.",vectorizer,lda_model,df_topic_keywords)
-# print(probability_scores)
 
