@@ -15,6 +15,9 @@ import pyLDAvis.sklearn
 import numpy as np
 import pandas as pd
 
+# Import bentoML for saving lda_model
+import bentoml
+
 """
     Create doc-word matrix from given dataset using a CountVectorizer
     @params:
@@ -107,7 +110,7 @@ def get_perplexity(lda_model,data_vectorized):
 """
 def show_topics(vectorizer, lda_model, num):
     #  Np array of the feature names in passed vectorizer
-    keywords = np.array(vectorizer.get_feature_names())
+    keywords = np.array(vectorizer.get_feature_names_out())
     topic_keywords = []
     # extract the top words of each topic from the given LDA model
     for topic_weights in lda_model.components_:
@@ -165,6 +168,13 @@ def predict(query_description, vectorizer,lda_model,df_topic_keywords):
 # lda_model=create_lda_model(data_vectorized,15)
 # visualize_lda_model(lda_model,data_vectorized,vectorizer)
 # df_topic_keywords = show_topics(vectorizer, lda_model,15)
+
+"""
+    Saving the data_vectorized, vectorizer and lda_model in disk
+"""
+# bentoml.sklearn.save_model("data_vectorized",data_vectorized)
+# bentoml.sklearn.save_model("vectorizer",vectorizer)
+# bentoml.sklearn.save_model("ldamodel", lda_model)
 """
     Example code showing how to predict the probability of given text using the LDA model
 """
