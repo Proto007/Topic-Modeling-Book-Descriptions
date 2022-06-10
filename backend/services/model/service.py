@@ -21,12 +21,8 @@ class LdaModelClass:
     def predict(self,query_description:string):
         return ldaModel.predict(str(query_description), vectorizer, lda_model, df_topic_keywords) 
 
-# Load runner class instance from disk if possible. Otherwise create a new instance and save it.
-try:
-    runner_model=bentoml.picklable_model.load_model("runnermodel:latest")
-    raise ValueError("FOUND!")
-except:
-    runner_model=LdaModelClass()
+# Create an instance of LdaModelClass
+runner_model=LdaModelClass()
 
 # Save the model as 'runnermodel'
 tag=bentoml.picklable_model.save_model('runnermodel',runner_model,signatures={"predict":{"batchable":False}})
