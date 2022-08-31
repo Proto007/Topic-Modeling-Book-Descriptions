@@ -10,7 +10,7 @@ const DescriptionInput = (props) => {
     const [correlations, setCorrelations]= useState([]);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await fetch(`http://127.0.0.1:8000/http://127.0.0.1:3000/predict`, {
+        const response = await fetch(`http://127.0.0.1:3001/predict`, {
             method: 'POST', 
             headers: {
               'Content-Type': 'text/plain;charset=utf-8'
@@ -41,10 +41,14 @@ const DescriptionInput = (props) => {
       justifyContent:"flex-start"
     }}>
          <Introduction retrieved={retrieved} topicWords={topicWords} correlations={correlations}/>
-         <form onSubmit={handleSubmit}>
+         {retrieved ? (
+          <div>TODO: TABLE</div>
+         ):(
+          <form onSubmit={handleSubmit}>
             <textarea placeholder="Enter a book description..." rows="28" cols="60" value={description} onChange={(event) => setDescription(event.target.value)} style={{fontSize:"20pt",marginLeft:"2px"}}/> <br/>
             <input type='submit' value='Get Topics' style={{width:'95vh',height:'6.8vh', background:"#000000",color:"white", marginLeft:"2px",fontSize:"20pt", fontFamily:"cursive",padding:"10px 25px",cursor:"pointer"}}/> 
-         </form>
+          </form>
+         )}
      </div>   
     );
 }
