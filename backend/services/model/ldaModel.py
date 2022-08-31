@@ -89,7 +89,7 @@ def visualize_lda_model(lda_model, data_vectorized, vectorizer):
     try:
         pyLDAvis.save_html(visualization, "model.html")
     # Log error in visualization creation
-    except:
+    except Exception:
         print("Failed to create visualization")
 
 
@@ -132,10 +132,10 @@ def show_topics(vectorizer, lda_model, num):
     ]
     # Topic number
     df_topic_keywords.index = [
-        "Topic " + str(i) for i in range(df_topic_keywords.shape[0])
+        "Topic " + str(i) for i in range(1, df_topic_keywords.shape[0]+1)
     ]
     # Save the dataframe
-    df_topic_keywords.to_csv("topic_words.csv", index=False)
+    df_topic_keywords.to_csv("topic_words.csv")
     return df_topic_keywords
 
 
@@ -166,8 +166,8 @@ def predict(query_description, vectorizer, lda_model, df_topic_keywords):
     topics_list = df_topic_keywords.values.tolist()
     # Append the topic keywords and probability of all topics into an array
     topic_distribution = []
-    for i in range(len(topics_list)):
-        topic_distribution.append([topics_list[i], topic_probability_scores[0][i]])
+    for index, topic in enumerate(topics_list):
+        topic_distribution.append(topic, topic_probability_scores[0][index])
     # Sort the topics based on the frequency
     # topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
     return topic_distribution
