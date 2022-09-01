@@ -2,3 +2,4 @@
 backend/services/model/model.html
 frontend/node_modules
 node_modules/
+backend/services/model/topic_words.csv
