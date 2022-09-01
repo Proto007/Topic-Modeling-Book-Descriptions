@@ -167,7 +167,7 @@ def predict(query_description, vectorizer, lda_model, df_topic_keywords):
     # Append the topic keywords and probability of all topics into an array
     topic_distribution = []
     for index, topic in enumerate(topics_list):
-        topic_distribution.append(topic, topic_probability_scores[0][index])
+        topic_distribution.append([topic, topic_probability_scores[0][index]])
     # Sort the topics based on the frequency
     # topic_distribution.sort(key=lambda row:(row[1]), reverse=True)
     return topic_distribution
