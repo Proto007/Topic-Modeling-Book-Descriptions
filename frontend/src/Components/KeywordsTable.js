@@ -24,8 +24,8 @@ const KeywordsTable = (props) => {
    ]);
    
    const [columnDefs] = useState([
-       { field: 'Topic #', resizable: true, width: 100, cellStyle: {'border-right-color': '#e2e2e2', 'border-bottom-color':'#e2e2e2', 'text-align': 'center'}},
-       { field: 'Top Keywords per Topic (sorted by frequency)', resizable: true, width: 750, cellStyle: {'border-bottom-color': '#e2e2e2'}},
+       { field: 'Topic #', resizable: true, width: 105, cellStyle: {'border-right-color': '#e2e2e2', 'border-bottom-color':'#e2e2e2', 'text-align': 'center', 'font-size': '0.8vw', fontFamily:'monospace'}},
+       { field: 'Top Keywords per Topic (sorted by frequency)', resizable: true, width: 750, autoHeight: true, wrapText:true, cellStyle: {'border-bottom-color': '#e2e2e2', 'font-size': '0.8vw', fontFamily:'monospace'}},
    ]);
 
    useEffect(()=>{
@@ -51,9 +51,8 @@ const KeywordsTable = (props) => {
     },[props.topicWords]);
 
    return (
-       <div className="ag-theme-alpine-dark" style={{width:'95vh',height:'100.3vh'}}>
+       <div className="ag-theme-alpine-dark" style={{width:'95vh',height:'110vh'}}>
            <AgGridReact
-               rowHeight={61}
                rowData={rowData}
                columnDefs={columnDefs}>
            </AgGridReact>
