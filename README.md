@@ -25,7 +25,7 @@ set BENTOML_CONFIG=./config.yaml
 // Linux or Unix:
 export BENTOML_CONFIG=./config.yaml
 ```
-7. Start bentoML dev frontend to test post requests: `bentoml serve`
+7. Start bentoML dev frontend to test post requests: `bentoml serve service.py`
 8. Open http://localhost:3001 to see bentoML swagger UI.
 
 # Frontend
